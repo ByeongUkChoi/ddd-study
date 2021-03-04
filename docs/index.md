@@ -1,4 +1,5 @@
 ---
+title: My First Page
 layout: default
 ---
 # DDD(Domain-Driven Design) 학습하기
