@@ -1,4 +1,5 @@
 ---
+title: DDD-STUDY
 layout: home
 ---
 
