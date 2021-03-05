@@ -1,16 +1,16 @@
 # Configurations
-title:            Jekyll Gitbook
-longtitle:        Jekyll Gitbook
-author:           HE Tao
-email:            sighingnow@gmail.com
+title:            DDD STUDY
+longtitle:        Domain-Driven Design Study
+author:           ByeongUkChoi
+email:            cbw0916@gmail.com
 description: >
-  Build Jekyll site with the GitBook style.
+  Domain-Driven Design Study
 
 version:          1.0
 gitbook_version:  3.2.3
 
-url:              'https://sighingnow.github.io'
-baseurl:          '/jekyll-gitbook'
+url:              'https://byeongukchoi.github.io'
+baseurl:          '/ddd-study'
 rss:              RSS
 
 # markdown render engine.
