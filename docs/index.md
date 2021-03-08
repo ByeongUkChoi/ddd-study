@@ -7,3 +7,6 @@ layout: home
 
 온라인 배달 서비스를 구현하면서 도메인 주도 설계를 학습한다.  
 
+## 스펙
+java 11 (OpenJDK 11)  
+Spring boot 2.4.2  
