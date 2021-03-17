@@ -8,7 +8,14 @@ public class Order {
     private DeliveryInfo deliveryInfo;
     private Status status;
 
-    public void order(Orderer orderer, List<OrderItem> orderItems, ShippingInfo shippingInfo) {
+    public void order(Orderer orderer, List<OrderItem> orderItems, DeliveryInfo deliveryInfo) {
+    }
+
+    public void cancel() {
+        if (Status.WAITING.equals(status)) {
+            status = Status.CANCELED;
+        }
+        throw new RuntimeException();
     }
 
     enum Status {
