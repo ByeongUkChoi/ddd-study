@@ -1,13 +1,5 @@
----
-title: 상품
-layout: post
----
+package com.example.dddstudy.product.domain;
 
-#### 상품
-- 가게 담당자가 상품을 등록/수정/상태변경 한다.  
-- 상품에는 가게 식별자, 이름, 가격, 옵션, 주문 가능 여부가 있다.
-
-```java
 public class Product {
     private String name;
     private long storeId;
@@ -23,4 +15,3 @@ public class Product {
         this.orderable = orderable;
     }
 }
-```
