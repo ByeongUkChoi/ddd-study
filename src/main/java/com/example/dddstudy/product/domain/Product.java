@@ -14,4 +14,13 @@ public class Product {
         this.option = option;
         this.orderable = orderable;
     }
+
+    /** 주문 가능하게 설정 */
+    public void changeOrderable() {
+        orderable = true;
+    }
+    /** 주문 불가능하게 설정 */
+    public void changeUnorderable() {
+        orderable = false;
+    }
 }
