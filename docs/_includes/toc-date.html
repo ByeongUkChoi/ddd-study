@@ -16,14 +16,14 @@
 
             <li class="divider"></li>
             {% for category in site.categories %}
-            <li class="chapter"><b>{{ category[0] }}</b></li>
+            <li class="chapter" data-level="1.1"><b>{{ category[0] }}</b></li>
             <ul>
                 {% for post in category[1] %}
                     {% if page.url == post.url %}
                     <li class="chapter active" data-level="1.2" data-path="{{site.baseurl}}{{post.url}}">
-                        {% else %}
+                    {% else %}
                     <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
-                        {% endif %}
+                    {% endif %}
                         <a href="{{site.baseurl}}{{post.url}}">
                             {{ post.title | escape }}
                         </a>
@@ -31,21 +31,22 @@
                 {% endfor %}
             </ul>
             {% endfor %}
-            <li class="divider"></li>
 
-            {% assign reversed_posts = site.posts | reverse %}
+<!--            <li class="divider"></li>-->
 
-            {% for post in reversed_posts %}
-                {% if page.url == post.url %}
-                <li class="chapter active" data-level="1.2" data-path="{{site.baseurl}}{{post.url}}">
-                {% else %}
-                <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
-                {% endif %}
-                    <a href="{{site.baseurl}}{{post.url}}">
-                        {{ post.title | escape }}
-                    </a>
-                </li>
-            {% endfor %}
+<!--            {% assign reversed_posts = site.posts | reverse %}-->
+
+<!--            {% for post in reversed_posts %}-->
+<!--                {% if page.url == post.url %}-->
+<!--                <li class="chapter active" data-level="1.2" data-path="{{site.baseurl}}{{post.url}}">-->
+<!--                {% else %}-->
+<!--                <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">-->
+<!--                {% endif %}-->
+<!--                    <a href="{{site.baseurl}}{{post.url}}">-->
+<!--                        {{ post.title | escape }}-->
+<!--                    </a>-->
+<!--                </li>-->
+<!--            {% endfor %}-->
 
             <li class="divider"></li>
 
