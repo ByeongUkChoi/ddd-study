@@ -16,7 +16,7 @@
 
             <li class="divider"></li>
             {% for category in site.categories %}
-            <h3 class="chapter">{{ category[0] }}</h3>
+            <li class="chapter"><b>{{ category[0] }}</b></li>
             <ul>
                 {% for post in category[1] %}
                     {% if page.url == post.url %}
