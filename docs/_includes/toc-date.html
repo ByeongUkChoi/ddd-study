@@ -15,24 +15,6 @@
             </li>
 
             <li class="divider"></li>
-<!--            {% for category in site.categories %}-->
-<!--            <li class="chapter" data-level="1.1"><a href="javascript:;">{{ category[0] }}</a></li>-->
-<!--            <ul>-->
-<!--                {% for post in category[1] %}-->
-<!--                    {% if page.url == post.url %}-->
-<!--                    <li class="chapter active" data-level="1.2" data-path="{{site.baseurl}}{{post.url}}">-->
-<!--                    {% else %}-->
-<!--                    <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">-->
-<!--                    {% endif %}-->
-<!--                        <a href="{{site.baseurl}}{{post.url}}">-->
-<!--                            {{ post.title | escape }}-->
-<!--                        </a>-->
-<!--                    </li>-->
-<!--                {% endfor %}-->
-<!--            </ul>-->
-<!--            {% endfor %}-->
-
-<!--            <li class="divider"></li>-->
 
             {% assign reversed_posts = site.posts | reverse %}
 
@@ -43,7 +25,11 @@
                 <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
                 {% endif %}
                     <a href="{{site.baseurl}}{{post.url}}">
-                        {{ post.title | escape }}
+                        {% if page.bold %}
+                            <b>{{ post.title | escape }}</b>
+                        {% else %}
+                            {{ post.title | escape }}
+                        {% endif %}
                     </a>
                 </li>
             {% endfor %}
