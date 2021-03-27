@@ -25,7 +25,7 @@
                 <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
                 {% endif %}
                     <a href="{{site.baseurl}}{{post.url}}">
-                        {% if page.bold %}
+                        {% if post.bold %}
                             <b>{{ post.title | escape }}</b>
                         {% else %}
                             {{ post.title | escape }}
