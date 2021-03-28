@@ -3,6 +3,7 @@ package com.example.dddstudy.order.domain;
 import java.util.List;
 
 public class Order {
+    private Long id;
     private Orderer orderer;
     private List<OrderItem> orderItems;
     private DeliveryInfo deliveryInfo;

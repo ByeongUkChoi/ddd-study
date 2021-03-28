@@ -1,6 +1,7 @@
 package com.example.dddstudy.product.domain;
 
 public class Product {
+    private Long id;
     private String name;
     private long storeId;
     private long price;
