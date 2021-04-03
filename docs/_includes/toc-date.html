@@ -25,7 +25,7 @@
                 <li class="chapter" data-level="1.1" data-path="{{site.baseurl}}{{post.url}}">
                 {% endif %}
                     <a href="{{site.baseurl}}{{post.url}}">
-                        {{ post.title }}
+                        {{ post.title | escape }}
                     </a>
                 </li>
             {% endfor %}
