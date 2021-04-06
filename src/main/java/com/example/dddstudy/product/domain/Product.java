@@ -1,19 +1,22 @@
 package com.example.dddstudy.product.domain;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class Product {
     private Long id;
     private String name;
     private long storeId;
     private long price;
-    private Option option;
     private boolean orderable;
+    private List<OptionGroup> optionGroups;
 
-    private Product(String name, long storeId, long price, Option option, boolean orderable) {
+    private Product(String name, long storeId, long price, boolean orderable, OptionGroup... optionGroups) {
         this.name = name;
         this.storeId = storeId;
         this.price = price;
-        this.option = option;
         this.orderable = orderable;
+        this.optionGroups = Arrays.asList(optionGroups);
     }
 
     /** 주문 가능하게 설정 */
