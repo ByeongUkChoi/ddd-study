@@ -1,9 +1,9 @@
-package com.example.dddstudy.product.domain;
+package com.example.dddstudy.menu.domain;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Product {
+public class Menu {
     private Long id;
     private String name;
     private long storeId;
@@ -11,7 +11,7 @@ public class Product {
     private boolean orderable;
     private List<OptionGroup> optionGroups;
 
-    private Product(String name, long storeId, long price, boolean orderable, OptionGroup... optionGroups) {
+    private Menu(String name, long storeId, long price, boolean orderable, OptionGroup... optionGroups) {
         this.name = name;
         this.storeId = storeId;
         this.price = price;

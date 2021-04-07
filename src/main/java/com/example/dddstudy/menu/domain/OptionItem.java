@@ -1,4 +1,4 @@
-package com.example.dddstudy.product.domain;
+package com.example.dddstudy.menu.domain;
 
 public class OptionItem {
     private Long id;
