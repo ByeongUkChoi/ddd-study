@@ -6,7 +6,7 @@ title: 주문 서비스
 
 ```java
 public interface OrderService {
-    void order();
-    void cancelOrder();
+    void order(OrderRequestDto orderRequestDto);
+    void cancelOrder(long orderId);
 }
 ```
