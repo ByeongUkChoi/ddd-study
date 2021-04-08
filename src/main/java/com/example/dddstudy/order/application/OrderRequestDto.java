@@ -1,0 +1,52 @@
+package com.example.dddstudy.order.application;
+
+import java.util.Arrays;
+import java.util.List;
+
+public class OrderRequestDto {
+    private long ordererId;
+    private DeliveryInfo deliveryInfo;
+    private List<OrderItem> orderItems;
+
+    public OrderRequestDto(long ordererId, DeliveryInfo deliveryInfo, OrderItem... orderItems) {
+        this.ordererId = ordererId;
+        this.deliveryInfo = deliveryInfo;
+        this.orderItems = Arrays.asList(orderItems);
+    }
+
+    public static class DeliveryInfo {
+        private String address;
+        private String message;
+        private String phone;
+
+        public DeliveryInfo(String address, String message, String phone) {
+            this.address = address;
+            this.message = message;
+            this.phone = phone;
+        }
+    }
+
+    public static class OrderItem {
+        private long menuId;
+        private long price;
+        private int quantity;
+
+        public OrderItem(long menuId, long price, int quantity) {
+            this.menuId = menuId;
+            this.price = price;
+            this.quantity = quantity;
+        }
+    }
+
+    public static class OrderOptionGroup {
+        private long optionGroupId;
+        private long price;
+        private int quantity;
+        private List<OrderOptionItem> orderOptionItems;
+    }
+
+    public static class OrderOptionItem {
+        private long optionItemId;
+        private long price;
+    }
+}
