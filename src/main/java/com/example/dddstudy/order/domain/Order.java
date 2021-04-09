@@ -1,5 +1,6 @@
 package com.example.dddstudy.order.domain;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class Order {
@@ -10,9 +11,9 @@ public class Order {
     private Status status;
 
     /** 주문 생성 */
-    public void order(Orderer orderer, List<OrderItem> orderItems, DeliveryInfo deliveryInfo) {
+    public void order(Orderer orderer, DeliveryInfo deliveryInfo, OrderItem... orderItems) {
         this.orderer = orderer;
-        this.orderItems = orderItems;
+        this.orderItems = Arrays.asList(orderItems);
         this.deliveryInfo = deliveryInfo;
         this.status = Status.WAITING;     // <-- 주문 생성 시 대기중 상태로 생성됨
     }
