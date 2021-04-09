@@ -10,3 +10,13 @@ public interface OrderService {
     void cancelOrder(long orderId);
 }
 ```
+하나의 서비스에서 너무 많은 기능을 하는 것 같다면 분리하자  
+```java
+public interface OrderService {
+    void order(OrderRequestDto orderRequestDto);
+}
+
+public interface OrderCancelService {
+    void cancelOrder(long orderId);
+}
+```
