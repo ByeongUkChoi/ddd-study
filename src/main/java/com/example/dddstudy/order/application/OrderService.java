@@ -1,6 +1,13 @@
 package com.example.dddstudy.order.application;
 
-public interface OrderService {
-    void order();
-    void cancelOrder();
+import com.example.dddstudy.order.domain.Order;
+
+public class OrderService {
+    public void order(OrderRequestDto orderRequestDto) {
+        new Order();
+    }
+
+    public void cancelOrder() {
+
+    }
 }
