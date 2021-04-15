@@ -28,9 +28,17 @@ public class OrderCommandServiceTest {
 
     public void createOrderSuccessTest() {
         // given
-        // TODO: orderRequestDto
-//        OrderRequestDto orderRequestDto = new OrderRequestDto();
-        OrderRequestDto orderRequestDto = null;
+        final long ordererId = 1;
+        final String address = "seoul";
+        final String message = "-";
+        final String phone = "010-1234-1234";
+        final long menuId = 11;
+        final long price = 10_000;
+        final int quantity = 2;
+
+        OrderRequestDto.OrderItem orderItems = new OrderRequestDto.OrderItem(menuId, price, quantity);
+        OrderRequestDto.DeliveryInfo deliveryInfo = new OrderRequestDto.DeliveryInfo(address, message, phone);
+        OrderRequestDto orderRequestDto = new OrderRequestDto(ordererId, deliveryInfo, orderItems);
 
         // when
         orderCommandService.order(orderRequestDto);
