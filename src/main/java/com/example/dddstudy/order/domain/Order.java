@@ -31,7 +31,11 @@ public class Order {
         return Status.WAITING.equals(status);
     }
 
-    enum Status {
-        WAITING, PREPARING, DELIVERING, DELIVERED, CANCELED
+    public enum Status {
+        WAITING,        // 대기중 (주문 완료)
+        PREPARING,      // 준비중
+        DELIVERING,     // 배달중
+        DELIVERED,      // 배달 완료
+        CANCELED        // 취소됨
     }
 }
