@@ -42,14 +42,10 @@ public class OrderRequestDto {
 
     public static class OrderOptionGroup {
         private long optionGroupId;
-        private long price;
-        private int quantity;
         private List<OrderOptionItem> orderOptionItems;
 
-        public OrderOptionGroup(long optionGroupId, long price, int quantity, OrderOptionItem... orderOptionItems) {
+        public OrderOptionGroup(long optionGroupId, OrderOptionItem... orderOptionItems) {
             this.optionGroupId = optionGroupId;
-            this.price = price;
-            this.quantity = quantity;
             this.orderOptionItems = Arrays.asList(orderOptionItems);
         }
     }

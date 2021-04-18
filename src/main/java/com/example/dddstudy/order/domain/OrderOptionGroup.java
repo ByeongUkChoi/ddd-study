@@ -5,6 +5,7 @@ import java.util.List;
 
 public class OrderOptionGroup {
     private long optionGroupId;
+    // TODO: 필수 여부, 최대 개수 여부
     private List<OrderOptionItem> orderOptionItems;
 
     public OrderOptionGroup(long optionGroupId, OrderOptionItem... orderOptionItems) {

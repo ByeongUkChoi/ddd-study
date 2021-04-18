@@ -3,6 +3,7 @@ package com.example.dddstudy.order.application;
 import com.example.dddstudy.order.domain.Order;
 import com.example.dddstudy.order.domain.OrderItem;
 import com.example.dddstudy.order.domain.OrderOptionGroup;
+import com.example.dddstudy.order.domain.OrderOptionItem;
 import com.example.dddstudy.order.domain.OrderRepository;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -41,9 +42,13 @@ public class OrderCommandServiceTest {
         final long menuId = 11;
         final long price = 10_000;
         final int quantity = 2;
-        // TODO: option group
+        final long optionGroupId = 3;
+        final long optionItemId = 5;
+        final long optionItemPrice = 700;
 
-        OrderRequestDto.OrderItem orderItem1 = new OrderRequestDto.OrderItem(menuId, price, quantity);
+        OrderRequestDto.OrderOptionItem orderOptionItem = new OrderRequestDto.OrderOptionItem(optionItemId,optionItemPrice);
+        OrderRequestDto.OrderOptionGroup orderOptionGroup = new OrderRequestDto.OrderOptionGroup(optionGroupId, orderOptionItem);
+        OrderRequestDto.OrderItem orderItem1 = new OrderRequestDto.OrderItem(menuId, price, quantity, orderOptionGroup);
         OrderRequestDto.DeliveryInfo deliveryInfo = new OrderRequestDto.DeliveryInfo(address, message, phone);
         OrderRequestDto orderRequestDto = new OrderRequestDto(ordererId, deliveryInfo, orderItem1);
 
@@ -73,8 +78,16 @@ public class OrderCommandServiceTest {
 
         List<OrderOptionGroup> orderOptionGroups = (List<OrderOptionGroup>) getField(actualOrderItem1, "orderOptionGroups");
         assertThat(orderOptionGroups.size(), is(1));
-        OrderOptionGroup orderOptionGroup = orderOptionGroups.get(0);
-        // TODO: option group
-//        assertThat(getField(orderOptionGroup, "menuId"), is(menuId));
+        OrderOptionGroup actualOrderOptionGroup = orderOptionGroups.get(0);
+        assertThat(getField(actualOrderOptionGroup, "optionGroupId"), is(optionGroupId));
+
+        List<OrderOptionItem> orderOptionItems = (List<OrderOptionItem>) getField(actualOrderOptionGroup, "orderOptionItems");
+        assertThat(orderOptionItems.size(), is(1));
+
+        OrderOptionItem actualOrderOptionItem = orderOptionItems.get(0);
+        assertThat(getField(actualOrderOptionItem, "optionItemId"), is(optionItemId));
+        assertThat(getField(actualOrderOptionItem, "price"), is(optionItemPrice));
+
+        // TODO: event
     }
 }
