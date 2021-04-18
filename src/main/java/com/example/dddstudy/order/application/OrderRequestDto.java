@@ -45,10 +45,22 @@ public class OrderRequestDto {
         private long price;
         private int quantity;
         private List<OrderOptionItem> orderOptionItems;
+
+        public OrderOptionGroup(long optionGroupId, long price, int quantity, OrderOptionItem... orderOptionItems) {
+            this.optionGroupId = optionGroupId;
+            this.price = price;
+            this.quantity = quantity;
+            this.orderOptionItems = Arrays.asList(orderOptionItems);
+        }
     }
 
     public static class OrderOptionItem {
         private long optionItemId;
         private long price;
+
+        public OrderOptionItem(long optionItemId, long price) {
+            this.optionItemId = optionItemId;
+            this.price = price;
+        }
     }
 }
