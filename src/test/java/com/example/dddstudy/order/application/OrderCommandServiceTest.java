@@ -5,6 +5,7 @@ import com.example.dddstudy.order.domain.OrderItem;
 import com.example.dddstudy.order.domain.OrderOptionGroup;
 import com.example.dddstudy.order.domain.OrderOptionItem;
 import com.example.dddstudy.order.domain.OrderRepository;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -33,6 +34,7 @@ public class OrderCommandServiceTest {
         this.orderRepository = orderRepository;
     }
 
+    @Test
     public void createOrderSuccessTest() {
         // given
         final long ordererId = 1;
@@ -89,7 +91,5 @@ public class OrderCommandServiceTest {
         OrderOptionItem actualOrderOptionItem = orderOptionItems.get(0);
         assertThat(getField(actualOrderOptionItem, "optionItemId"), is(optionItemId));
         assertThat(getField(actualOrderOptionItem, "price"), is(optionItemPrice));
-
-        // TODO: event
     }
 }
