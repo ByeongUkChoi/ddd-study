@@ -6,32 +6,25 @@ import com.example.dddstudy.order.domain.OrderOptionGroup;
 import com.example.dddstudy.order.domain.OrderOptionItem;
 import com.example.dddstudy.order.domain.OrderRepository;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.util.ReflectionTestUtils.getField;
 
-@ExtendWith(MockitoExtension.class)
 public class OrderCommandServiceTest {
 
-    @InjectMocks
     private final OrderCommandService orderCommandService;
-    @Mock
     private final OrderRepository orderRepository;
 
-    public OrderCommandServiceTest(OrderCommandService orderCommandService,
-                                   OrderRepository orderRepository) {
-        this.orderCommandService = orderCommandService;
-        this.orderRepository = orderRepository;
+    public OrderCommandServiceTest() {
+        orderRepository = mock(OrderRepository.class);
+        orderCommandService = new OrderCommandService(orderRepository);
     }
 
     @Test

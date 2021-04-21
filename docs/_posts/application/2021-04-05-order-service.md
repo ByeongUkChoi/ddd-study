@@ -34,16 +34,13 @@ public interface OrderCommandService {
 
 ```java
 public class OrderCommandServiceTest {
-
-    @InjectMocks
+    
     private final OrderCommandService orderCommandService;
-    @Mock
     private final OrderRepository orderRepository;
 
-    public OrderCommandServiceTest(OrderCommandService orderCommandService,
-                                   OrderRepository orderRepository) {
-        this.orderCommandService = orderCommandService;
-        this.orderRepository = orderRepository;
+    public OrderCommandServiceTest() {
+        orderRepository = mock(OrderRepository.class);
+        orderCommandService = new OrderCommandService(orderRepository);
     }
 
     @Test
@@ -104,9 +101,13 @@ public class OrderCommandServiceTest {
         assertThat(getField(actualOrderOptionItem, "optionItemId"), is(optionItemId));
         assertThat(getField(actualOrderOptionItem, "price"), is(optionItemPrice));
     }
+
+    @Test
+    public void createOrderEventTest() {
+    }
 }
 ```
-#### given-when-then 패턴  
+#### given-when-then 패턴
 BDD(Behavior-Driven Development) 중 하나로 아래와 같은 구조를 가진다.  
 given : 테스트를 위한 준비 (테스트를 위한 상태 설정)  
 when : 테스트 하려는 행동
