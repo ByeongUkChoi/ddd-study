@@ -112,3 +112,15 @@ BDD(Behavior-Driven Development) 중 하나로 아래와 같은 구조를 가진
 given : 테스트를 위한 준비 (테스트를 위한 상태 설정)  
 when : 테스트 하려는 행동
 then : 실행한 결과의 예상되는 변화 설명
+
+#### Mapper
+외부에서 전달된 주문 정보 객체 (OrderRequestDto)를 주문 도메인으로 변환 해주기 위해선 어플리케이션 레이어에서도 할 수 있지만 단순 변환하는 작업이므로 별도의 클래스를 두어 처리한다.  
+이처럼 Dto -> Entity 로 변환해주는 작업을 하는 것을 Mapper 라고 하자.  
+
+##### orderMapper
+```java
+public interface OrderMapper {
+    Order mapFrom(OrderRequestDto orderRequestDto);
+}
+```
+
