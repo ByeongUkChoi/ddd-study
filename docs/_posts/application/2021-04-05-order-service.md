@@ -102,7 +102,7 @@ public class OrderCommandServiceTest {
         assertThat(getField(actualOrderOptionItem, "price"), is(optionItemPrice));
     }
 
-    @Test
+    // TODO: 주문 이벤트 테스트
     public void createOrderEventTest() {
     }
 }
@@ -114,13 +114,32 @@ when : 테스트 하려는 행동
 then : 실행한 결과의 예상되는 변화 설명
 
 #### Mapper
-외부에서 전달된 주문 정보 객체 (OrderRequestDto)를 주문 도메인으로 변환 해주기 위해선 어플리케이션 레이어에서도 할 수 있지만 단순 변환하는 작업이므로 별도의 클래스를 두어 처리한다.  
-이처럼 Dto -> Entity 로 변환해주는 작업을 하는 것을 Mapper 라고 하자.  
+OrderCommandService 의 Order 메소드에서 해야 할 일은 아래와 같다.  
+입력된 정보(OrderRequestDto)로 주문(Order)를 생성하여 저장한다.  
+이때 OrderRequestDto -> Order 변환은 단순 변환하는 작업이지만 코드 양이 많고 OrderCommandService 와 클래스를 분리 할 수 있다.  
+이렇게 dto -> domain 을 변환해 주는 것을 Mapper 라고 하자.  
 
 ##### orderMapper
 ```java
 public interface OrderMapper {
     Order mapFrom(OrderRequestDto orderRequestDto);
+}
+```
+Mapper 를 사용하여 OrderCommandService 의 가독성이 좋아졌고, 단순 변환 로직은 Mapper 에 위임할 수 있게 되었다.  
+```java
+public class OrderCommandService {
+    private final OrderRepository orderRepository;
+    private final OderMapper orderMapper;
+
+    public OrderCommandService(OrderRepository orderRepository, OrderMapper orderMapper) {
+        this.orderRepository = orderRepository;
+        this.orderMapper = orderMapper; 
+    }
+
+    public void order(OrderRequestDto orderRequestDto) {
+        Order order = orderMapper.mapFrom(orderRequestDto);
+        orderRepository.save();
+    }
 }
 ```
 
