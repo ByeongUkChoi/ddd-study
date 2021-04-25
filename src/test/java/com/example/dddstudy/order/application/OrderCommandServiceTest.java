@@ -46,7 +46,7 @@ public class OrderCommandServiceTest {
         OrderRequestDto.OrderOptionGroup orderOptionGroup = new OrderRequestDto.OrderOptionGroup(optionGroupId, orderOptionItem);
         OrderRequestDto.OrderItem orderItem1 = new OrderRequestDto.OrderItem(menuId, price, quantity, orderOptionGroup);
         OrderRequestDto.DeliveryInfo deliveryInfo = new OrderRequestDto.DeliveryInfo(address, message, phone);
-        OrderRequestDto orderRequestDto = new OrderRequestDto(ordererId, deliveryInfo, orderItem1);
+        OrderRequestDto orderRequestDto = new OrderRequestDto(deliveryInfo, orderItem1);
 
         // when
         orderCommandService.order(orderRequestDto);

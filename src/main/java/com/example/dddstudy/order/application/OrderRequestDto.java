@@ -1,19 +1,22 @@
 package com.example.dddstudy.order.application;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public class OrderRequestDto {
-    private long ordererId;
+    private long storeId;
     private DeliveryInfo deliveryInfo;
     private List<OrderItem> orderItems;
 
-    public OrderRequestDto(long ordererId, DeliveryInfo deliveryInfo, OrderItem... orderItems) {
-        this.ordererId = ordererId;
+    public OrderRequestDto(DeliveryInfo deliveryInfo, OrderItem... orderItems) {
         this.deliveryInfo = deliveryInfo;
         this.orderItems = Arrays.asList(orderItems);
     }
 
+    @Getter
     public static class DeliveryInfo {
         private String address;
         private String message;

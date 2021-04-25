@@ -11,7 +11,7 @@ public class Order {
     private Status status;
 
     /** 주문 생성 */
-    public void order(Orderer orderer, DeliveryInfo deliveryInfo, OrderItem... orderItems) {
+    public Order(Orderer orderer, DeliveryInfo deliveryInfo, OrderItem... orderItems) {
         this.orderer = orderer;
         this.orderItems = Arrays.asList(orderItems);
         this.deliveryInfo = deliveryInfo;
