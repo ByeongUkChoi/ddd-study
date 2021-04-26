@@ -42,14 +42,14 @@ public class OrderCommandServiceTest {
         final long optionItemId = 5;
         final long optionItemPrice = 700;
 
-        OrderRequestDto.OrderOptionItem orderOptionItem = new OrderRequestDto.OrderOptionItem(optionItemId,optionItemPrice);
-        OrderRequestDto.OrderOptionGroup orderOptionGroup = new OrderRequestDto.OrderOptionGroup(optionGroupId, orderOptionItem);
-        OrderRequestDto.OrderItem orderItem1 = new OrderRequestDto.OrderItem(menuId, price, quantity, orderOptionGroup);
-        OrderRequestDto.DeliveryInfo deliveryInfo = new OrderRequestDto.DeliveryInfo(address, message, phone);
-        OrderRequestDto orderRequestDto = new OrderRequestDto(deliveryInfo, orderItem1);
+        OrderRequest.OrderOptionItem orderOptionItem = new OrderRequest.OrderOptionItem(optionItemId,optionItemPrice);
+        OrderRequest.OrderOptionGroup orderOptionGroup = new OrderRequest.OrderOptionGroup(optionGroupId, orderOptionItem);
+        OrderRequest.OrderItem orderItem1 = new OrderRequest.OrderItem(menuId, price, quantity, orderOptionGroup);
+        OrderRequest.DeliveryInfo deliveryInfo = new OrderRequest.DeliveryInfo(address, message, phone);
+        OrderRequest orderRequest = new OrderRequest(deliveryInfo, orderItem1);
 
         // when
-        orderCommandService.order(orderRequestDto);
+        orderCommandService.order(orderRequest);
 
         // then
         ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
@@ -60,7 +60,7 @@ public class OrderCommandServiceTest {
         assertThat(getField(order, "ordererId"), is(ordererId));
         assertThat(getField(order, "status"), is(Order.Status.PREPARING));
 
-        OrderRequestDto.DeliveryInfo actualDeliveryInfo = (OrderRequestDto.DeliveryInfo) getField(order, "deliveryInfo");
+        OrderRequest.DeliveryInfo actualDeliveryInfo = (OrderRequest.DeliveryInfo) getField(order, "deliveryInfo");
         assertThat(getField(actualDeliveryInfo, "address"), is(address));
         assertThat(getField(actualDeliveryInfo, "message"), is(message));
         assertThat(getField(actualDeliveryInfo, "phone"), is(phone));

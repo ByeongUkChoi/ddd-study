@@ -8,7 +8,7 @@ title: 주문 서비스
 public interface OrderService {
     List<OrderDto> getOrders(long memberId);
     OrderDto getOrder(long orderId);
-    void order(OrderRequestDto orderRequestDto);
+    void order(OrderRequest orderRequest);
     void cancelOrder(long orderId);
 }
 ```
@@ -22,7 +22,7 @@ public interface OrderQueryService {
 
 /** 주문 처리 서비스 */
 public interface OrderCommandService {
-    void order(OrderRequestDto orderRequestDto);
+    void order(OrderRequest orderRequest);
     void cancelOrder(long orderId);
 }
 ```
@@ -43,67 +43,27 @@ public class OrderCommandServiceTest {
         orderCommandService = new OrderCommandService(orderRepository);
     }
 
+    /**
+     * 테스트 예시
+     */
     @Test
     public void createOrderSuccessTest() {
-        // given
-        final long ordererId = 1;
-        final String address = "seoul";
-        final String message = "-";
-        final String phone = "010-1234-1234";
-        final long menuId = 11;
-        final long price = 10_000;
-        final int quantity = 2;
-        final long optionGroupId = 3;
-        final int maxOptionItemCount = 0;
-        final long optionItemId = 5;
-        final long optionItemPrice = 700;
+        // given (테스트를 위한 준비)
+        final long orderId;
+        OrderRequest orderRequest = new OrderRequset(orderId);
 
-        OrderRequestDto.OrderOptionItem orderOptionItem = new OrderRequestDto.OrderOptionItem(optionItemId,optionItemPrice);
-        OrderRequestDto.OrderOptionGroup orderOptionGroup = new OrderRequestDto.OrderOptionGroup(optionGroupId, orderOptionItem);
-        OrderRequestDto.OrderItem orderItem1 = new OrderRequestDto.OrderItem(menuId, price, quantity, orderOptionGroup);
-        OrderRequestDto.DeliveryInfo deliveryInfo = new OrderRequestDto.DeliveryInfo(address, message, phone);
-        OrderRequestDto orderRequestDto = new OrderRequestDto(deliveryInfo, orderItem1);
+        // when (테스트 하련느 행동 실행)
+        orderCommandService.order(orderRequest);
 
-        // when
-        orderCommandService.order(orderRequestDto);
-
-        // then
+        // then (실행 결과 예상 값 비교)
         ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
         verify(orderRepository).save(orderCaptor.capture());
 
         final Order order = orderCaptor.getValue();
         assertThat(order, notNullValue());
         assertThat(getField(order, "ordererId"), is(ordererId));
-        assertThat(getField(order, "status"), is(Order.Status.PREPARING));
-
-        OrderRequestDto.DeliveryInfo actualDeliveryInfo = (OrderRequestDto.DeliveryInfo) getField(order, "deliveryInfo");
-        assertThat(getField(actualDeliveryInfo, "address"), is(address));
-        assertThat(getField(actualDeliveryInfo, "message"), is(message));
-        assertThat(getField(actualDeliveryInfo, "phone"), is(phone));
-
-        List<OrderItem> actualOrderItems = (List<OrderItem>) getField(order, "orderItems");
-        assertThat(actualOrderItems.size(), is(1));
-        OrderItem actualOrderItem1 = actualOrderItems.get(0);
-        assertThat(getField(actualOrderItem1, "menuId"), is(menuId));
-        assertThat(getField(actualOrderItem1, "price"), is(price));
-        assertThat(getField(actualOrderItem1, "quantity"), is(quantity));
-
-        List<OrderOptionGroup> orderOptionGroups = (List<OrderOptionGroup>) getField(actualOrderItem1, "orderOptionGroups");
-        assertThat(orderOptionGroups.size(), is(1));
-        OrderOptionGroup actualOrderOptionGroup = orderOptionGroups.get(0);
-        assertThat(getField(actualOrderOptionGroup, "optionGroupId"), is(optionGroupId));
-        assertThat(getField(actualOrderOptionGroup, "maxOptionItemCount"), is(maxOptionItemCount));
-
-        List<OrderOptionItem> orderOptionItems = (List<OrderOptionItem>) getField(actualOrderOptionGroup, "orderOptionItems");
-        assertThat(orderOptionItems.size(), is(1));
-
-        OrderOptionItem actualOrderOptionItem = orderOptionItems.get(0);
-        assertThat(getField(actualOrderOptionItem, "optionItemId"), is(optionItemId));
-        assertThat(getField(actualOrderOptionItem, "price"), is(optionItemPrice));
-    }
-
-    // TODO: 주문 이벤트 테스트
-    public void createOrderEventTest() {
+        
+        // TODO: 주문 생성 이벤트 테스트
     }
 }
 ```
@@ -115,14 +75,14 @@ then : 실행한 결과의 예상되는 변화 설명
 
 #### Mapper
 OrderCommandService 의 Order 메소드에서 해야 할 일은 아래와 같다.  
-입력된 정보(OrderRequestDto)로 주문(Order)를 생성하여 저장한다.  
-이때 OrderRequestDto -> Order 변환은 단순 변환하는 작업이지만 코드 양이 많고 OrderCommandService 와 클래스를 분리 할 수 있다.  
+입력된 정보(OrderRequest)로 주문(Order)를 생성하여 저장한다.  
+이때 OrderRequest -> Order 변환은 단순 변환하는 작업이지만 코드 양이 많고 OrderCommandService 와 클래스를 분리 할 수 있다.  
 이렇게 dto -> domain 을 변환해 주는 것을 Mapper 라고 하자.  
 
 ##### orderMapper
 ```java
 public interface OrderMapper {
-    Order mapFrom(OrderRequestDto orderRequestDto);
+    Order mapFrom(OrderRequest orderRequest);
 }
 ```
 Mapper 를 사용하여 OrderCommandService 의 가독성이 좋아졌고, 단순 변환 로직은 Mapper 에 위임할 수 있게 되었다.  
@@ -136,8 +96,8 @@ public class OrderCommandService {
         this.orderMapper = orderMapper; 
     }
 
-    public void order(OrderRequestDto orderRequestDto) {
-        Order order = orderMapper.mapFrom(orderRequestDto);
+    public void order(OrderRequest orderRequest) {
+        Order order = orderMapper.mapFrom(orderRequest);
         orderRepository.save();
     }
 }

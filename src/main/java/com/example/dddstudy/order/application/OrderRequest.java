@@ -6,12 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public class OrderRequestDto {
+public class OrderRequest {
     private long storeId;
     private DeliveryInfo deliveryInfo;
     private List<OrderItem> orderItems;
 
-    public OrderRequestDto(DeliveryInfo deliveryInfo, OrderItem... orderItems) {
+    public OrderRequest(DeliveryInfo deliveryInfo, OrderItem... orderItems) {
         this.deliveryInfo = deliveryInfo;
         this.orderItems = Arrays.asList(orderItems);
     }
@@ -29,6 +29,7 @@ public class OrderRequestDto {
         }
     }
 
+    @Getter
     public static class OrderItem {
         private long menuId;
         private long price;
@@ -43,6 +44,7 @@ public class OrderRequestDto {
         }
     }
 
+    @Getter
     public static class OrderOptionGroup {
         private long optionGroupId;
         private List<OrderOptionItem> orderOptionItems;
@@ -53,6 +55,7 @@ public class OrderRequestDto {
         }
     }
 
+    @Getter
     public static class OrderOptionItem {
         private long optionItemId;
         private long price;
