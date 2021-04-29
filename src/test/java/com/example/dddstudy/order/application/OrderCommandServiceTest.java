@@ -20,11 +20,13 @@ import static org.springframework.test.util.ReflectionTestUtils.getField;
 public class OrderCommandServiceTest {
 
     private final OrderCommandService orderCommandService;
+    private final OrderMapper orderMapper;
     private final OrderRepository orderRepository;
 
     public OrderCommandServiceTest() {
+        orderMapper = mock(OrderMapper.class);
         orderRepository = mock(OrderRepository.class);
-        orderCommandService = new OrderCommandService(orderRepository);
+        orderCommandService = new OrderCommandService(orderMapper, orderRepository);
     }
 
     @Test
@@ -38,7 +40,6 @@ public class OrderCommandServiceTest {
         final long price = 10_000;
         final int quantity = 2;
         final long optionGroupId = 3;
-        final int maxOptionItemCount = 0;
         final long optionItemId = 5;
         final long optionItemPrice = 700;
 
@@ -49,7 +50,7 @@ public class OrderCommandServiceTest {
         OrderRequest orderRequest = new OrderRequest(deliveryInfo, orderItem1);
 
         // when
-        orderCommandService.order(orderRequest);
+        orderCommandService.order(ordererId, orderRequest);
 
         // then
         ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
@@ -76,7 +77,6 @@ public class OrderCommandServiceTest {
         assertThat(orderOptionGroups.size(), is(1));
         OrderOptionGroup actualOrderOptionGroup = orderOptionGroups.get(0);
         assertThat(getField(actualOrderOptionGroup, "optionGroupId"), is(optionGroupId));
-        assertThat(getField(actualOrderOptionGroup, "maxOptionItemCount"), is(maxOptionItemCount));
 
         List<OrderOptionItem> orderOptionItems = (List<OrderOptionItem>) getField(actualOrderOptionGroup, "orderOptionItems");
         assertThat(orderOptionItems.size(), is(1));
