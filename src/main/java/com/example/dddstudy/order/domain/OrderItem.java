@@ -11,7 +11,8 @@ public class OrderItem {
 
     public OrderItem(long menuId, long price, int quantity, OrderOptionGroup... orderOptionGroups) {
         this.menuId = menuId;
-        this.price = quantity;
+        this.price = price;
+        this.quantity = quantity;
         this.orderOptionGroups = Arrays.asList(orderOptionGroups);
     }
 }

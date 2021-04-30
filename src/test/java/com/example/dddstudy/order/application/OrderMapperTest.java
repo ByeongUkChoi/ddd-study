@@ -1,5 +1,6 @@
 package com.example.dddstudy.order.application;
 
+import com.example.dddstudy.order.domain.DeliveryInfo;
 import com.example.dddstudy.order.domain.Order;
 import com.example.dddstudy.order.domain.OrderItem;
 import com.example.dddstudy.order.domain.OrderOptionGroup;
@@ -49,7 +50,7 @@ public class OrderMapperTest {
         assertThat(getField(actualOrderer, "memberId"), is(ordererId));
         assertThat(getField(order, "status"), is(Order.Status.WAITING));
 
-        OrderRequest.DeliveryInfo actualDeliveryInfo = (OrderRequest.DeliveryInfo) getField(order, "deliveryInfo");
+        DeliveryInfo actualDeliveryInfo = (DeliveryInfo) getField(order, "deliveryInfo");
         assertThat(getField(actualDeliveryInfo, "address"), is(address));
         assertThat(getField(actualDeliveryInfo, "message"), is(message));
         assertThat(getField(actualDeliveryInfo, "phone"), is(phone));
