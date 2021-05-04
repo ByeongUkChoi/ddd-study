@@ -8,7 +8,7 @@ title: 주문 서비스
 public interface OrderService {
     List<OrderDto> getOrders(long memberId);
     OrderDto getOrder(long orderId);
-    void order(OrderRequest orderRequest);
+    void placeOrder(OrderRequest orderRequest);
     void cancelOrder(long orderId);
 }
 ```
@@ -22,7 +22,7 @@ public interface OrderQueryService {
 
 /** 주문 처리 서비스 */
 public interface OrderCommandService {
-    void order(OrderRequest orderRequest);
+    void placeOrder(OrderRequest orderRequest);
     void cancelOrder(long orderId);
 }
 ```
@@ -53,7 +53,7 @@ public class OrderCommandServiceTest {
         OrderRequest orderRequest = new OrderRequset(orderId);
 
         // when (테스트 하련느 행동 실행)
-        orderCommandService.order(orderRequest);
+        orderCommandService.placeOrder(orderRequest);
 
         // then (실행 결과 예상 값 비교)
         ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
@@ -161,7 +161,7 @@ public class OrderCommandService {
         this.orderMapper = orderMapper; 
     }
 
-    public void order(OrderRequest orderRequest) {
+    public void placeOrder(OrderRequest orderRequest) {
         Order order = orderMapper.mapFrom(orderRequest);
         orderRepository.save();
     }

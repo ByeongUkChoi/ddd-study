@@ -7,7 +7,7 @@ title: '[도메인 이벤트]'
 #### 주문 생성 이벤트
 주문이 생성될 때 주문 생성 이벤트를 발생시킨다.  
 ```java
-public class NewOrderCreatedEvent {
+public class OrderPlacedEvent {
     private Order order;
 }
 ```
@@ -16,6 +16,6 @@ public class NewOrderCreatedEvent {
 주문 생성시 처리되어야 하는 곳에서 주문 생성 이벤트를 감지하여 이벤트가 발생되면 실행된다.  
 ```java
 public interface OrderedEventHandler {
-    void ordered(NewOrderCreatedEvent event);
+    void ordered(OrderPlacedEvent event);
 }
 ```
