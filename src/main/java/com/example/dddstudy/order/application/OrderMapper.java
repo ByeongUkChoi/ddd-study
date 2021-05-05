@@ -5,7 +5,6 @@ import com.example.dddstudy.order.domain.Order;
 import com.example.dddstudy.order.domain.OrderItem;
 import com.example.dddstudy.order.domain.OrderOptionGroup;
 import com.example.dddstudy.order.domain.OrderOptionItem;
-import com.example.dddstudy.order.domain.Orderer;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,10 +13,11 @@ public class OrderMapper {
     /**
      * dto to entity
      */
-    public Order mapFrom(Orderer orderer, OrderRequest orderRequest) {
+    public Order mapFrom(long ordererId, OrderRequest orderRequest) {
         DeliveryInfo deliveryInfo = getDeliveryInfo(orderRequest.getDeliveryInfo());
         Order order = new Order(
-                orderer,
+                ordererId,
+                orderRequest.getStoreId(),
                 deliveryInfo,
                 orderRequest.getOrderItems().stream()
                         .map(this::toOrderItem)

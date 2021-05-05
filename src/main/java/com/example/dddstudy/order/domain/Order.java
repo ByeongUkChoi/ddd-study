@@ -5,14 +5,16 @@ import java.util.List;
 
 public class Order {
     private Long id;
-    private Orderer orderer;
+    private long ordererId;
+    private long storeId;
     private List<OrderItem> orderItems;
     private DeliveryInfo deliveryInfo;
     private Status status;
 
     /** 주문 생성 */
-    public Order(Orderer orderer, DeliveryInfo deliveryInfo, OrderItem... orderItems) {
-        this.orderer = orderer;
+    public Order(long ordererId, long storeId, DeliveryInfo deliveryInfo, OrderItem... orderItems) {
+        this.ordererId = ordererId;
+        this.storeId = storeId;
         this.orderItems = Arrays.asList(orderItems);
         this.deliveryInfo = deliveryInfo;
         this.status = Status.WAITING;     // <-- 주문 생성 시 대기중 상태로 생성됨

@@ -11,7 +11,8 @@ public class OrderRequest {
     private DeliveryInfo deliveryInfo;
     private List<OrderItem> orderItems;
 
-    public OrderRequest(DeliveryInfo deliveryInfo, OrderItem... orderItems) {
+    public OrderRequest(long storeId, DeliveryInfo deliveryInfo, OrderItem... orderItems) {
+        this.storeId = storeId;
         this.deliveryInfo = deliveryInfo;
         this.orderItems = Arrays.asList(orderItems);
     }

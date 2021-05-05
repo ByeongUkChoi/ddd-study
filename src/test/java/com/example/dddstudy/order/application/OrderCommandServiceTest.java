@@ -33,6 +33,7 @@ public class OrderCommandServiceTest {
     public void createOrderSuccessTest() {
         // given
         final long ordererId = 1;
+        final long storeId = 5;
         final String address = "seoul";
         final String message = "-";
         final String phone = "010-1234-1234";
@@ -47,10 +48,10 @@ public class OrderCommandServiceTest {
         OrderRequest.OrderOptionGroup orderOptionGroup = new OrderRequest.OrderOptionGroup(optionGroupId, orderOptionItem);
         OrderRequest.OrderItem orderItem1 = new OrderRequest.OrderItem(menuId, price, quantity, orderOptionGroup);
         OrderRequest.DeliveryInfo deliveryInfo = new OrderRequest.DeliveryInfo(address, message, phone);
-        OrderRequest orderRequest = new OrderRequest(deliveryInfo, orderItem1);
+        OrderRequest orderRequest = new OrderRequest(storeId, deliveryInfo, orderItem1);
 
         // when
-        orderCommandService.order(ordererId, orderRequest);
+        orderCommandService.placeOrder(ordererId, orderRequest);
 
         // then
         ArgumentCaptor<Order> orderCaptor = ArgumentCaptor.forClass(Order.class);
@@ -59,6 +60,7 @@ public class OrderCommandServiceTest {
         final Order order = orderCaptor.getValue();
         assertThat(order, notNullValue());
         assertThat(getField(order, "ordererId"), is(ordererId));
+        assertThat(getField(order, "storeId"), is(storeId));
         assertThat(getField(order, "status"), is(Order.Status.PREPARING));
 
         OrderRequest.DeliveryInfo actualDeliveryInfo = (OrderRequest.DeliveryInfo) getField(order, "deliveryInfo");

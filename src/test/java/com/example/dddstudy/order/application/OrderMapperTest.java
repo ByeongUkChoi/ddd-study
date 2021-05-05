@@ -5,7 +5,6 @@ import com.example.dddstudy.order.domain.Order;
 import com.example.dddstudy.order.domain.OrderItem;
 import com.example.dddstudy.order.domain.OrderOptionGroup;
 import com.example.dddstudy.order.domain.OrderOptionItem;
-import com.example.dddstudy.order.domain.Orderer;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -22,7 +21,7 @@ public class OrderMapperTest {
     public void orderMapperTest() {
         // given
         final long ordererId = 1;
-        final String orderName = "Choi";
+        final long storeId = 5;
 
         final String address = "seoul";
         final String message = "-";
@@ -34,20 +33,19 @@ public class OrderMapperTest {
         final long optionItemId = 5;
         final long optionItemPrice = 700;
 
-        Orderer orderer = new Orderer(ordererId, orderName);
         OrderRequest.OrderOptionItem orderOptionItem = new OrderRequest.OrderOptionItem(optionItemId,optionItemPrice);
         OrderRequest.OrderOptionGroup orderOptionGroup = new OrderRequest.OrderOptionGroup(optionGroupId, orderOptionItem);
         OrderRequest.OrderItem orderItem1 = new OrderRequest.OrderItem(menuId, price, quantity, orderOptionGroup);
         OrderRequest.DeliveryInfo deliveryInfo = new OrderRequest.DeliveryInfo(address, message, phone);
-        OrderRequest orderRequest = new OrderRequest(deliveryInfo, orderItem1);
+        OrderRequest orderRequest = new OrderRequest(storeId, deliveryInfo, orderItem1);
 
         // when
-        Order order = orderMapper.mapFrom(orderer, orderRequest);
+        Order order = orderMapper.mapFrom(ordererId, orderRequest);
 
         // then
         assertThat(order, notNullValue());
-        Orderer actualOrderer = (Orderer) getField(order, "orderer");
-        assertThat(getField(actualOrderer, "memberId"), is(ordererId));
+        assertThat(getField(order, "ordererId"), is(ordererId));
+        assertThat(getField(order, "storeId"), is(storeId));
         assertThat(getField(order, "status"), is(Order.Status.WAITING));
 
         DeliveryInfo actualDeliveryInfo = (DeliveryInfo) getField(order, "deliveryInfo");
