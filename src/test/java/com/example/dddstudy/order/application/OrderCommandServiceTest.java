@@ -1,5 +1,6 @@
 package com.example.dddstudy.order.application;
 
+import com.example.dddstudy.order.domain.DeliveryInfo;
 import com.example.dddstudy.order.domain.Order;
 import com.example.dddstudy.order.domain.OrderItem;
 import com.example.dddstudy.order.domain.OrderOptionGroup;
@@ -13,8 +14,7 @@ import java.util.List;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.getField;
 
 public class OrderCommandServiceTest {
@@ -46,9 +46,17 @@ public class OrderCommandServiceTest {
 
         OrderRequest.OrderOptionItem orderOptionItem = new OrderRequest.OrderOptionItem(optionItemId,optionItemPrice);
         OrderRequest.OrderOptionGroup orderOptionGroup = new OrderRequest.OrderOptionGroup(optionGroupId, orderOptionItem);
-        OrderRequest.OrderItem orderItem1 = new OrderRequest.OrderItem(menuId, price, quantity, orderOptionGroup);
+        OrderRequest.OrderItem orderItem = new OrderRequest.OrderItem(menuId, price, quantity, orderOptionGroup);
         OrderRequest.DeliveryInfo deliveryInfo = new OrderRequest.DeliveryInfo(address, message, phone);
-        OrderRequest orderRequest = new OrderRequest(storeId, deliveryInfo, orderItem1);
+        OrderRequest orderRequest = new OrderRequest(storeId, deliveryInfo, orderItem);
+
+        DeliveryInfo deliveryInfo1 = new DeliveryInfo(address, message, phone);
+        OrderOptionItem orderOptionItem1 = new OrderOptionItem(optionItemId, optionItemPrice);
+        OrderOptionGroup orderOptionGroup1 = new OrderOptionGroup(optionGroupId, orderOptionItem1);
+        OrderItem orderItem1 = new OrderItem(menuId, price, quantity, orderOptionGroup1);
+        Order expectedOrder = new Order(ordererId, storeId, deliveryInfo1, orderItem1);
+
+        when(orderMapper.mapFrom(anyLong(), eq(orderRequest))).thenReturn(expectedOrder);
 
         // when
         orderCommandService.placeOrder(ordererId, orderRequest);
@@ -61,9 +69,9 @@ public class OrderCommandServiceTest {
         assertThat(order, notNullValue());
         assertThat(getField(order, "ordererId"), is(ordererId));
         assertThat(getField(order, "storeId"), is(storeId));
-        assertThat(getField(order, "status"), is(Order.Status.PREPARING));
+        assertThat(getField(order, "status"), is(Order.Status.WAITING));
 
-        OrderRequest.DeliveryInfo actualDeliveryInfo = (OrderRequest.DeliveryInfo) getField(order, "deliveryInfo");
+        DeliveryInfo actualDeliveryInfo = (DeliveryInfo) getField(order, "deliveryInfo");
         assertThat(getField(actualDeliveryInfo, "address"), is(address));
         assertThat(getField(actualDeliveryInfo, "message"), is(message));
         assertThat(getField(actualDeliveryInfo, "phone"), is(phone));
