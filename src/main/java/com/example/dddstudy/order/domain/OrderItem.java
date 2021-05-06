@@ -5,7 +5,7 @@ import java.util.List;
 
 public class OrderItem {
     private long menuId;
-    private long price;
+    private long price;     // 단가 (메뉴의 1개 가격)
     private int quantity;
     private List<OrderOptionGroup> orderOptionGroups;
 
@@ -14,5 +14,19 @@ public class OrderItem {
         this.price = price;
         this.quantity = quantity;
         this.orderOptionGroups = Arrays.asList(orderOptionGroups);
+    }
+
+    /**
+     * 최종 가격 : (단가 + 옵션 총 가격) * 수량
+     * @return
+     */
+    public long getFinalPrice() {
+        return (price + getTotalOptionPrice()) * quantity;
+    }
+
+    public long getTotalOptionPrice() {
+        return orderOptionGroups.stream()
+                .mapToLong(OrderOptionGroup::getTotalOptionItemPrice)
+                .sum();
     }
 }
