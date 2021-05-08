@@ -83,7 +83,7 @@ public interface OrderMapper {
     Order mapFrom(OrderRequest orderRequest);
 }
 ```
-OrderMapper 의 기능으로 테스트 코드를 작성하면 아래와 같다.  
+OrderMapper 의 기능으로 테스트 코드를 작성하자.  
 ```java
 public class OrderMapperTest {
     private final OrderMapper orderMapper = new OrderMapper();
@@ -92,24 +92,7 @@ public class OrderMapperTest {
     public void orderMapperTest() {
         // given
         final long ordererId = 1;
-        final long storeId = 5;
-        final String orderName = "Choi";
-        final String address = "seoul";
-        final String message = "-";
-        final String phone = "010-1234-1234";
-        final long menuId = 11;
-        final long price = 10_000;
-        final int quantity = 2;
-        final long optionGroupId = 3;
-        final long optionItemId = 5;
-        final long optionItemPrice = 700;
-
-        Orderer orderer = new Orderer(ordererId, orderName);
-        OrderRequest.OrderOptionItem orderOptionItem = new OrderRequest.OrderOptionItem(optionItemId,optionItemPrice);
-        OrderRequest.OrderOptionGroup orderOptionGroup = new OrderRequest.OrderOptionGroup(optionGroupId, orderOptionItem);
-        OrderRequest.OrderItem orderItem1 = new OrderRequest.OrderItem(menuId, price, quantity, orderOptionGroup);
-        OrderRequest.DeliveryInfo deliveryInfo = new OrderRequest.DeliveryInfo(address, message, phone);
-        OrderRequest orderRequest = new OrderRequest(storeId, deliveryInfo, orderItem1);
+        // ...
 
         // when
         Order order = orderMapper.mapFrom(orderer, orderRequest);
@@ -117,52 +100,38 @@ public class OrderMapperTest {
         // then
         assertThat(order, notNullValue());
         assertThat(getField(order, "ordererId"), is(ordererId));
-        assertThat(getField(order, "storeId"), is(storeId));
-        assertThat(getField(order, "status"), is(Order.Status.PREPARING));
-
-        DeliveryInfo actualDeliveryInfo = (DeliveryInfo) getField(order, "deliveryInfo");
-        assertThat(getField(actualDeliveryInfo, "address"), is(address));
-        assertThat(getField(actualDeliveryInfo, "message"), is(message));
-        assertThat(getField(actualDeliveryInfo, "phone"), is(phone));
-
-        List<OrderItem> actualOrderItems = (List<OrderItem>) getField(order, "orderItems");
-        assertThat(actualOrderItems.size(), is(1));
-        OrderItem actualOrderItem1 = actualOrderItems.get(0);
-        assertThat(getField(actualOrderItem1, "menuId"), is(menuId));
-        assertThat(getField(actualOrderItem1, "price"), is(price));
-        assertThat(getField(actualOrderItem1, "quantity"), is(quantity));
-
-        List<OrderOptionGroup> orderOptionGroups = (List<OrderOptionGroup>) getField(actualOrderItem1, "orderOptionGroups");
-        assertThat(orderOptionGroups.size(), is(1));
-        OrderOptionGroup actualOrderOptionGroup = orderOptionGroups.get(0);
-        assertThat(getField(actualOrderOptionGroup, "optionGroupId"), is(optionGroupId));
-
-        List<OrderOptionItem> orderOptionItems = (List<OrderOptionItem>) getField(actualOrderOptionGroup, "orderOptionItems");
-        assertThat(orderOptionItems.size(), is(1));
-
-        OrderOptionItem actualOrderOptionItem = orderOptionItems.get(0);
-        assertThat(getField(actualOrderOptionItem, "optionItemId"), is(optionItemId));
-        assertThat(getField(actualOrderOptionItem, "price"), is(optionItemPrice));
+        // ...
     }
 }
 ```
-  
-  
-Mapper 를 사용하여 OrderCommandService 의 가독성이 좋아졌고, 단순 변환 로직은 Mapper 에 위임할 수 있게 되었다.  
+
+##### orderValidator
+주문을 하기 전에 주문이 가능한지 검증이 필요하다.  
+주문 금액이 맞는지 주문이 가능한지 등의 여부를 확인해야하는데 OrderValidator 라는 것을 만들어서 이러한 역활을 여기서 처리한다.
+
+```java
+public class OrderValidator {
+    void validate(Order order);
+}
+```
+
+역활에 따라 기능들을 분리하여 가독성이 좋아진 모습을 볼 수 있다.  
 ```java
 public class OrderCommandService {
-    private final OrderRepository orderRepository;
     private final OderMapper orderMapper;
+    private final OrderValidator orderValidator;
+    private final OrderRepository orderRepository;
 
-    public OrderCommandService(OrderRepository orderRepository, OrderMapper orderMapper) {
+    public OrderCommandService(OrderMapper orderMapper, OrderValidator orderValidator, OrderRepository orderRepository) {
+        this.orderMapper = orderMapper;
+        this.orderValidator = orderValidator;
         this.orderRepository = orderRepository;
-        this.orderMapper = orderMapper; 
     }
 
     public void placeOrder(OrderRequest orderRequest) {
         Order order = orderMapper.mapFrom(orderRequest);
+        order.place(orderValidator);
         orderRepository.save();
     }
 }
 ```
-
