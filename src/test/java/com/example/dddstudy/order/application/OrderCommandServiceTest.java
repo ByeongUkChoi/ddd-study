@@ -21,12 +21,14 @@ public class OrderCommandServiceTest {
 
     private final OrderCommandService orderCommandService;
     private final OrderMapper orderMapper;
+    private final OrderValidator orderValidator;
     private final OrderRepository orderRepository;
 
     public OrderCommandServiceTest() {
         orderMapper = mock(OrderMapper.class);
+        orderValidator = mock(OrderValidator.class);
         orderRepository = mock(OrderRepository.class);
-        orderCommandService = new OrderCommandService(orderMapper, orderRepository);
+        orderCommandService = new OrderCommandService(orderMapper, orderValidator, orderRepository);
     }
 
     @Test
