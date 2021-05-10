@@ -18,7 +18,6 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.getField;
 
 public class OrderCommandServiceTest {
-
     private final OrderCommandService orderCommandService;
     private final OrderMapper orderMapper;
     private final OrderValidator orderValidator;
