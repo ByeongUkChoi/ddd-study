@@ -11,7 +11,7 @@ public class Menu {
     private boolean orderable;
     private List<OptionGroup> optionGroups;
 
-    private Menu(String name, long storeId, long price, boolean orderable, OptionGroup... optionGroups) {
+    public Menu(String name, long storeId, long price, boolean orderable, OptionGroup... optionGroups) {
         this.name = name;
         this.storeId = storeId;
         this.price = price;
