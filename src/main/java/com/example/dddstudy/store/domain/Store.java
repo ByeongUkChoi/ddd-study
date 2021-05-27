@@ -11,4 +11,12 @@ public class Store {
         this.isOpened = isOpened;
         this.storeHours = storeHours;
     }
+
+    public boolean isOrderable() {
+        if (isOpened == false) {
+            return false;
+        }
+        // TODO: store houres
+        return true;
+    }
 }

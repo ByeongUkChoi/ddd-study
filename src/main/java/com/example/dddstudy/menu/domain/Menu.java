@@ -1,9 +1,12 @@
 package com.example.dddstudy.menu.domain;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class Menu {
+    @Getter
     private Long id;
     private String name;
     private long storeId;

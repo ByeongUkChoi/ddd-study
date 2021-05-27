@@ -1,9 +1,12 @@
 package com.example.dddstudy.order.domain;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.List;
 
 public class OrderItem {
+    @Getter
     private long menuId;
     private long price;     // 단가 (메뉴의 1개 가격)
     private int quantity;

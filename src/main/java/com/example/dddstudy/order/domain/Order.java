@@ -1,6 +1,7 @@
 package com.example.dddstudy.order.domain;
 
 import com.example.dddstudy.order.application.OrderValidator;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;
@@ -8,7 +9,9 @@ import java.util.List;
 public class Order {
     private Long id;
     private long ordererId;
+    @Getter
     private long storeId;
+    @Getter
     private List<OrderItem> orderItems;
     private DeliveryInfo deliveryInfo;
     private Status status;
