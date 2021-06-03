@@ -30,4 +30,9 @@ public class Menu {
     public void changeUnorderable(long storeId) {
         orderable = false;
     }
+
+    /** 주문 가능 여부 */
+    public boolean isOrderable() {
+        return orderable;
+    }
 }
