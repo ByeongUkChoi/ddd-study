@@ -12,6 +12,7 @@ public class Menu {
     private long storeId;
     private long price;
     private boolean orderable;
+    @Getter
     private List<OptionGroup> optionGroups;
 
     public Menu(String name, long storeId, long price, boolean orderable, OptionGroup... optionGroups) {

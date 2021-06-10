@@ -1,8 +1,11 @@
 package com.example.dddstudy.order.domain;
 
+import lombok.Getter;
+
 import java.util.Arrays;
 import java.util.List;
 
+@Getter
 public class OrderOptionGroup {
     private long optionGroupId;
     private List<OrderOptionItem> orderOptionItems;

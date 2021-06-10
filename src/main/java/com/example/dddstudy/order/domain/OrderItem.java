@@ -10,6 +10,7 @@ public class OrderItem {
     private long menuId;
     private long price;     // 단가 (메뉴의 1개 가격)
     private int quantity;
+    @Getter
     private List<OrderOptionGroup> orderOptionGroups;
 
     public OrderItem(long menuId, long price, int quantity, OrderOptionGroup... orderOptionGroups) {
