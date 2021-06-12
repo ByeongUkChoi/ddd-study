@@ -10,6 +10,7 @@ public class Menu {
     private Long id;
     private String name;
     private long storeId;
+    @Getter
     private long price;
     private boolean orderable;
     @Getter
