@@ -8,8 +8,6 @@ public class OptionGroup {
     @Getter
     private Long id;
     private String name;
-    @Getter
-    private long price;
     private boolean isRequired;
     private Integer limitQuantity;  // null is unlimited
     @Getter

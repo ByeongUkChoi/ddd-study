@@ -8,6 +8,7 @@ import java.util.List;
 public class OrderItem {
     @Getter
     private long menuId;
+    @Getter
     private long price;     // 단가 (메뉴의 1개 가격)
     private int quantity;
     @Getter

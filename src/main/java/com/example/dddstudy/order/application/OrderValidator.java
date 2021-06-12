@@ -31,7 +31,8 @@ public class OrderValidator {
         if (store.isOrderable() == false) {
             throw new IllegalArgumentException("해당 가게가 주문 불가능한 상태입니다.");
         }
-        Set<Long> orderedMenuIds = order.getOrderItems().stream().map(OrderItem::getMenuId).collect(Collectors.toSet());
+        Set<Long> orderedMenuIds = order.getOrderItems().stream()
+                .map(OrderItem::getMenuId).collect(Collectors.toSet());
 
         List<Menu> menus = menuRepository.findAllById(orderedMenuIds);
         // menu id => menu
@@ -42,8 +43,6 @@ public class OrderValidator {
                 .forEach(orderItem -> {
                     validateOrderItem(orderItem, menuMap.get(orderItem.getMenuId()));
                 });
-
-        // TODO: price validate
     }
 
     private void validateOrderItem(OrderItem orderItem,  Menu menu) {
@@ -54,6 +53,10 @@ public class OrderValidator {
             // TODO: custom error
             throw new IllegalArgumentException("해당 메뉴는 주문이 불가능 합니다." + menu.getId());
         }
+        if (orderItem.getPrice() != menu.getPrice()) {
+            throw new IllegalArgumentException("해당 메뉴의 금액이 일치하지 않습니다." + menu.getId());
+        }
+
         Map<Long, OptionGroup> optionGroupMap = menu.getOptionGroups().stream()
                 .collect(Collectors.toMap(OptionGroup::getId, Function.identity()));
         orderItem.getOrderOptionGroups().stream()
