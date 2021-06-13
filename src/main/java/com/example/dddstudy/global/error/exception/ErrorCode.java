@@ -5,7 +5,16 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
     UNKNOWN_ERROR(1000, "UNKNOWN ERROR"),
-    MISSING_REQUIRED_PARAMETERS(1001, "필수 값이 누락되었습니다.");
+    MISSING_REQUIRED_PARAMETERS(1001, "필수 값이 누락되었습니다."),
+
+    // -- 주문
+    NOT_FOUND_MENU(2001, "주문 메뉴을 찾을 수 없습니다."),
+    CANNOT_ORDERED_MENU(2002, "주문 불가능한 상품입니다."),
+    INVALID_MENU_PRICE(2003, "주문 메뉴 금액 오류입니다."),
+    NOT_FOUND_OPTION_MENU_GROUP(2004, "옵션 그룹을 찾을 수 없습니다."),
+    NOT_FOUND_OPTION_MENU_ITEM(2005, "옵션 상품을 찾을 수 없습니다."),
+    INVALID_OPTION_MENU_ITEM_PRICE(2006, "주문 옵션 상품의 금액 오류입니다."),
+    ;
 
     private final int code;
     private final String message;

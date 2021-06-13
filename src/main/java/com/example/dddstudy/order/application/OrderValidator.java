@@ -1,5 +1,7 @@
 package com.example.dddstudy.order.application;
 
+import com.example.dddstudy.global.error.exception.BusinessException;
+import com.example.dddstudy.global.error.exception.ErrorCode;
 import com.example.dddstudy.menu.domain.Menu;
 import com.example.dddstudy.menu.domain.MenuRepository;
 import com.example.dddstudy.menu.domain.OptionGroup;
@@ -41,45 +43,49 @@ public class OrderValidator {
 
         order.getOrderItems().stream()
                 .forEach(orderItem -> {
+                    if (!menuMap.containsKey(orderItem.getMenuId())) {
+                        throw new BusinessException(ErrorCode.NOT_FOUND_MENU);
+                    }
                     validateOrderItem(orderItem, menuMap.get(orderItem.getMenuId()));
                 });
     }
 
-    private void validateOrderItem(OrderItem orderItem,  Menu menu) {
-        if (orderItem.getMenuId() != menu.getId()) {
-            throw new IllegalArgumentException("주문 상품 오류입니다.");
-        }
+    private void validateOrderItem(OrderItem orderItem, Menu menu) {
         if (!menu.isOrderable()) {
-            // TODO: custom error
-            throw new IllegalArgumentException("해당 메뉴는 주문이 불가능 합니다." + menu.getId());
+            throw new BusinessException(ErrorCode.CANNOT_ORDERED_MENU);
         }
         if (orderItem.getPrice() != menu.getPrice()) {
-            throw new IllegalArgumentException("해당 메뉴의 금액이 일치하지 않습니다." + menu.getId());
+            throw new BusinessException(ErrorCode.INVALID_MENU_PRICE);
         }
 
         Map<Long, OptionGroup> optionGroupMap = menu.getOptionGroups().stream()
                 .collect(Collectors.toMap(OptionGroup::getId, Function.identity()));
+
         orderItem.getOrderOptionGroups().stream()
-                .forEach(orderOptionGroup -> validateOrderOptionGroup(orderOptionGroup, optionGroupMap.get(orderOptionGroup.getOptionGroupId())));
+                .forEach(orderOptionGroup -> {
+                    if (!optionGroupMap.containsKey(orderOptionGroup.getOptionGroupId())) {
+                        throw new BusinessException(ErrorCode.NOT_FOUND_OPTION_MENU_GROUP);
+                    }
+                    validateOrderOptionGroup(orderOptionGroup, optionGroupMap.get(orderOptionGroup.getOptionGroupId()));
+                });
     }
 
     private void validateOrderOptionGroup(OrderOptionGroup orderOptionGroup, OptionGroup optionGroup) {
-        if (orderOptionGroup.getOptionGroupId() != optionGroup.getId()) {
-            throw new IllegalArgumentException("주문 옵션 그룹 오류입니다.");
-        }
         Map<Long, OptionItem> optionItemMap = optionGroup.getOptionItems().stream()
                 .collect(Collectors.toMap(OptionItem::getId, Function.identity()));
 
         orderOptionGroup.getOrderOptionItems().stream()
-                .forEach(orderOptionItem -> validateOrderOptionItem(orderOptionItem, optionItemMap.get(orderOptionItem.getOptionItemId())));
+                .forEach(orderOptionItem -> {
+                    if (!optionItemMap.containsKey(orderOptionItem.getOptionItemId())) {
+                        throw new BusinessException(ErrorCode.NOT_FOUND_OPTION_MENU_ITEM);
+                    }
+                    validateOrderOptionItem(orderOptionItem, optionItemMap.get(orderOptionItem.getOptionItemId()));
+                });
     }
 
     private void validateOrderOptionItem(OrderOptionItem orderOptionItem, OptionItem optionItem) {
-        if (orderOptionItem.getOptionItemId() != optionItem.getPrice()) {
-            throw new IllegalArgumentException("주문 옵션 상품 오류입니다.");
-        }
         if (orderOptionItem.getPrice() != optionItem.getPrice()) {
-            throw new IllegalArgumentException("주문 옵션 상품 금액 오류입니다.");
+            throw new BusinessException(ErrorCode.INVALID_OPTION_MENU_ITEM_PRICE);
         }
     }
 }
