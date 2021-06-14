@@ -2,11 +2,12 @@ package com.example.dddstudy.order.domain;
 
 import com.example.dddstudy.order.application.OrderValidator;
 import lombok.Getter;
+import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.util.Arrays;
 import java.util.List;
 
-public class Order {
+public class Order extends AbstractAggregateRoot {
     private Long id;
     private long ordererId;
     @Getter
@@ -27,8 +28,7 @@ public class Order {
     public void place(OrderValidator orderValidator) {
         orderValidator.validate(this);
         this.status = Status.WAITING;
-
-        // TODO: OrderPlacedEvent
+        registerEvent(new OrderPlacedEvent(this));
     }
 
     /** 주문 취소 */
