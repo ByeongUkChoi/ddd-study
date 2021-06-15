@@ -1,5 +1,7 @@
 package com.example.dddstudy.order.domain;
 
+import com.example.dddstudy.global.error.exception.BusinessException;
+import com.example.dddstudy.global.error.exception.ErrorCode;
 import com.example.dddstudy.order.application.OrderValidator;
 import lombok.Getter;
 import org.springframework.data.domain.AbstractAggregateRoot;
@@ -33,10 +35,11 @@ public class Order extends AbstractAggregateRoot {
 
     /** 주문 취소 */
     public void cancel() {
-        if (enableOrderCancel()) {
-            status = Status.CANCELED;
+        if (!enableOrderCancel()) {
+            throw new BusinessException(ErrorCode.ORDER_CANNOT_BE_CANCELED);
         }
-        throw new RuntimeException();
+        status = Status.CANCELED;
+        registerEvent(new OrderCanceledEvent(this));
     }
 
     /** 주문 취소 가능 여부 */
