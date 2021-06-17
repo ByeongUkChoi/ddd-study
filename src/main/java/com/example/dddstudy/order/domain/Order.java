@@ -34,9 +34,12 @@ public class Order extends AbstractAggregateRoot {
     }
 
     /** 주문 취소 */
-    public void cancel() {
+    public void cancel(long ordererId) {
         if (!enableOrderCancel()) {
             throw new BusinessException(ErrorCode.ORDER_CANNOT_BE_CANCELED);
+        }
+        if (ordererId != this.ordererId) {
+            throw new BusinessException(ErrorCode.INVALID_ORDERER);
         }
         status = Status.CANCELED;
         registerEvent(new OrderCanceledEvent(this));

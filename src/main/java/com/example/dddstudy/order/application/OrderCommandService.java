@@ -1,5 +1,7 @@
 package com.example.dddstudy.order.application;
 
+import com.example.dddstudy.global.error.exception.BusinessException;
+import com.example.dddstudy.global.error.exception.ErrorCode;
 import com.example.dddstudy.order.domain.Order;
 import com.example.dddstudy.order.domain.OrderRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +20,9 @@ public class OrderCommandService {
         orderRepository.save(order);
     }
 
-    public void cancelOrder() {
-
+    public void cancelOrder(long ordererId, long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_MENU));
+        order.cancel(ordererId);
     }
 }

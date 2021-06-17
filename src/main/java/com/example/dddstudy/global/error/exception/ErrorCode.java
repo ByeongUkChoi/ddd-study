@@ -15,7 +15,9 @@ public enum ErrorCode {
     NOT_FOUND_OPTION_MENU_ITEM(2005, "옵션 상품을 찾을 수 없습니다."),
     INVALID_OPTION_MENU_ITEM_PRICE(2006, "주문 옵션 상품의 금액 오류입니다."),
 
-    ORDER_CANNOT_BE_CANCELED(2007, "주문 취소가 불가능 합니다.");
+    NOT_FOUND_ORDER(2007, "주문을 찾을 수 없습니다."),
+    INVALID_ORDERER(2008, "주문자가 일치하지 않습니다."),
+    ORDER_CANNOT_BE_CANCELED(2009, "주문 취소가 불가능 합니다.");
     ;
 
     private final int code;
