@@ -29,9 +29,9 @@ public class OrderValidator {
 
     public void validate(Order order) {
         Store store = storeRepository.findById(order.getStoreId())
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ORDER));
         if (store.isOrderable() == false) {
-            throw new IllegalArgumentException("해당 가게가 주문 불가능한 상태입니다.");
+            throw new BusinessException(ErrorCode.STORE_IS_NOT_OPEN);
         }
         Set<Long> orderedMenuIds = order.getOrderItems().stream()
                 .map(OrderItem::getMenuId).collect(Collectors.toSet());

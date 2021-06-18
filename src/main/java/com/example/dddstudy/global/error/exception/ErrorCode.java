@@ -17,7 +17,9 @@ public enum ErrorCode {
 
     NOT_FOUND_ORDER(2007, "주문을 찾을 수 없습니다."),
     INVALID_ORDERER(2008, "주문자가 일치하지 않습니다."),
-    ORDER_CANNOT_BE_CANCELED(2009, "주문 취소가 불가능 합니다.");
+    ORDER_CANNOT_BE_CANCELED(2009, "주문 취소가 불가능 합니다."),
+
+    STORE_IS_NOT_OPEN(2007, "가게는 주문 불가능한 상태입니다."),
     ;
 
     private final int code;
