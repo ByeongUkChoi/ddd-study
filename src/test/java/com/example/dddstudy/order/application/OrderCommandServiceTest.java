@@ -70,7 +70,7 @@ public class OrderCommandServiceTest {
         assertThat(order, notNullValue());
         assertThat(getField(order, "ordererId"), is(ordererId));
         assertThat(getField(order, "storeId"), is(storeId));
-        assertThat(getField(order, "status"), is(Order.Status.WAITING));
+        assertThat(getField(order, "status"), is(Order.Status.ORDERED));
 
         DeliveryInfo actualDeliveryInfo = (DeliveryInfo) getField(order, "deliveryInfo");
         assertThat(getField(actualDeliveryInfo, "address"), is(address));

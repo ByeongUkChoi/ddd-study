@@ -29,7 +29,7 @@ public class Order extends AbstractAggregateRoot {
     /** 주문하기 */
     public void place(OrderValidator orderValidator) {
         orderValidator.validate(this);
-        this.status = Status.WAITING;
+        this.status = Status.ORDERED;
         registerEvent(new OrderPlacedEvent(this));
     }
 
@@ -47,11 +47,12 @@ public class Order extends AbstractAggregateRoot {
 
     /** 주문 취소 가능 여부 */
     private boolean enableOrderCancel() {
-        return Status.WAITING.equals(status);
+        return Status.ORDERED.equals(status);
     }
 
     public enum Status {
-        WAITING,        // 대기중 (주문 완료)
+        ORDERED,        // 주문 완료
+        PAYED,          // 결제 완료
         PREPARING,      // 준비중
         DELIVERING,     // 배달중
         DELIVERED,      // 배달 완료
