@@ -26,14 +26,22 @@ public class Order extends AbstractAggregateRoot {
         this.deliveryInfo = deliveryInfo;
     }
 
-    /** 주문하기 */
+    // 주문하기
     public void place(OrderValidator orderValidator) {
         orderValidator.validate(this);
         this.status = Status.ORDERED;
         registerEvent(new OrderPlacedEvent(this));
     }
 
-    /** 주문 취소 */
+    // 결제완료
+    public void pay() {
+        if (!Status.ORDERED.equals(this.status)) {
+            throw new BusinessException(ErrorCode.INVALID_ORDER_STATUS_TO_PAY);
+        }
+        this.status = Status.PAYED;
+    }
+
+    // 주문 취소
     public void cancel(long ordererId) {
         if (!enableOrderCancel()) {
             throw new BusinessException(ErrorCode.ORDER_CANNOT_BE_CANCELED);
@@ -45,7 +53,7 @@ public class Order extends AbstractAggregateRoot {
         registerEvent(new OrderCanceledEvent(this));
     }
 
-    /** 주문 취소 가능 여부 */
+    // 주문 취소 가능 여부
     private boolean enableOrderCancel() {
         return Status.ORDERED.equals(status);
     }
