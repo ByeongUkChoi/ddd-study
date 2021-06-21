@@ -20,9 +20,15 @@ public class OrderCommandService {
         orderRepository.save(order);
     }
 
+    public void payOrder(long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ORDER));
+        order.pay();
+    }
+
     public void cancelOrder(long ordererId, long orderId) {
         Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_MENU));
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ORDER));
         order.cancel(ordererId);
     }
 }

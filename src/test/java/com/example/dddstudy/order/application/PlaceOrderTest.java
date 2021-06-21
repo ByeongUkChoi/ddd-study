@@ -17,13 +17,13 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.getField;
 
-public class OrderCommandServiceTest {
+public class PlaceOrderTest {
     private final OrderCommandService orderCommandService;
     private final OrderMapper orderMapper;
     private final OrderValidator orderValidator;
     private final OrderRepository orderRepository;
 
-    public OrderCommandServiceTest() {
+    public PlaceOrderTest() {
         orderMapper = mock(OrderMapper.class);
         orderValidator = mock(OrderValidator.class);
         orderRepository = mock(OrderRepository.class);
