@@ -39,6 +39,7 @@ public class Order extends AbstractAggregateRoot {
             throw new BusinessException(ErrorCode.INVALID_ORDER_STATUS_TO_PAY);
         }
         this.status = Status.PAYED;
+        registerEvent(new OrderPayedEvent(this));
     }
 
     // 주문 취소
