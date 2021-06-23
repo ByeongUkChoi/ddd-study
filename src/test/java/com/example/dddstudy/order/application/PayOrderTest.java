@@ -31,31 +31,15 @@ public class PayOrderTest {
     @Test
     public void payOrderSuccessTest() {
         // given
-        final long ordererId = 1;
-        final Order.Status status = Order.Status.ORDERED;
-        final long storeId = 5;
-        final String address = "seoul";
-        final String message = "-";
-        final String phone = "010-1234-1234";
-        final long menuId = 11;
-        final String menuName = "Chicken";
-        final long price = 10_000;
-        final int quantity = 2;
-        final long optionGroupId = 3;
-        final long optionItemId = 5;
-        final long optionItemPrice = 700;
+        long orderId = 1;
+        Order order = createOrder();
+        setField(order, "id", orderId);
+        setField(order, "status", Order.Status.ORDERED);
 
-        DeliveryInfo deliveryInfo1 = new DeliveryInfo(address, message, phone);
-        OrderOptionItem orderOptionItem1 = new OrderOptionItem(optionItemId, optionItemPrice);
-        OrderOptionGroup orderOptionGroup1 = new OrderOptionGroup(optionGroupId, orderOptionItem1);
-        OrderItem orderItem1 = new OrderItem(menuId, price, quantity, orderOptionGroup1);
-        Order order = new Order(ordererId, storeId, deliveryInfo1, orderItem1);
-        setField(order, "status", status);
-
-        when(orderRepository.findById(eq(ordererId))).thenReturn(Optional.of(order));
+        when(orderRepository.findById(eq(orderId))).thenReturn(Optional.of(order));
 
         // when
-        orderCommandService.payOrder(ordererId);
+        orderCommandService.payOrder(orderId);
 
         // given
         // ...
@@ -71,6 +55,26 @@ public class PayOrderTest {
     public void payOrderNotFoundOrderFailureTest() {
         // TODO: orderRepository inject Order entity mock
         // TODO: assert
+    }
+
+    private Order createOrder() {
+        final long ordererId = 1;
+        final long storeId = 5;
+        final String address = "seoul";
+        final String message = "-";
+        final String phone = "010-1234-1234";
+        final long menuId = 11;
+        final long price = 10_000;
+        final int quantity = 2;
+        final long optionGroupId = 3;
+        final long optionItemId = 5;
+        final long optionItemPrice = 700;
+
+        DeliveryInfo deliveryInfo1 = new DeliveryInfo(address, message, phone);
+        OrderOptionItem orderOptionItem1 = new OrderOptionItem(optionItemId, optionItemPrice);
+        OrderOptionGroup orderOptionGroup1 = new OrderOptionGroup(optionGroupId, orderOptionItem1);
+        OrderItem orderItem1 = new OrderItem(menuId, price, quantity, orderOptionGroup1);
+        return new Order(ordererId, storeId, deliveryInfo1, orderItem1);
     }
 
 }
