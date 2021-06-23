@@ -42,7 +42,7 @@ public class PayOrderTest {
         orderCommandService.payOrder(orderId);
 
         // given
-        // ...
+        // ... success
     }
 
     @Test
