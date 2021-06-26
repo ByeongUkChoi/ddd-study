@@ -1,5 +1,7 @@
 package com.example.dddstudy.order.application;
 
+import com.example.dddstudy.global.error.exception.BusinessException;
+import com.example.dddstudy.global.error.exception.ErrorCode;
 import com.example.dddstudy.order.domain.DeliveryInfo;
 import com.example.dddstudy.order.domain.Order;
 import com.example.dddstudy.order.domain.OrderItem;
@@ -10,9 +12,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.util.ReflectionTestUtils.getField;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 public class PayOrderTest {
@@ -41,14 +46,26 @@ public class PayOrderTest {
         // when
         orderCommandService.payOrder(orderId);
 
-        // given
+        // then
         // ... success
     }
 
     @Test
     public void payOrderStatusFailureTest() {
-        // TODO: orderRepository inject Order entity mock
-        // TODO: assert
+        // given
+        long orderId = 1;
+        Order order = createOrder();
+        setField(order, "id", orderId);
+
+        when(orderRepository.findById(eq(orderId))).thenReturn(Optional.of(order));
+
+        // when
+        Exception exception = assertThrows(BusinessException.class, () -> {
+            orderCommandService.payOrder(orderId);
+        });
+
+        // then
+        assertEquals(getField(exception, "errorCode"), ErrorCode.INVALID_ORDER_STATUS_TO_PAY);
     }
 
     @Test
