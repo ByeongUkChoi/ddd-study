@@ -70,8 +70,16 @@ public class PayOrderTest {
 
     @Test
     public void payOrderNotFoundOrderFailureTest() {
-        // TODO: orderRepository inject Order entity mock
-        // TODO: assert
+        // given
+        long orderId = 1;
+
+        // when
+        Exception exception = assertThrows(BusinessException.class, () -> {
+            orderCommandService.payOrder(orderId);
+        });
+
+        // then
+        assertEquals(getField(exception, "errorCode"), ErrorCode.NOT_FOUND_ORDER);
     }
 
     private Order createOrder() {
