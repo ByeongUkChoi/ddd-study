@@ -8,6 +8,7 @@ import org.springframework.data.domain.AbstractAggregateRoot;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class Order extends AbstractAggregateRoot {
     private Long id;
@@ -56,13 +57,15 @@ public class Order extends AbstractAggregateRoot {
 
     // 주문 취소 가능 여부
     private boolean enableOrderCancel() {
-        return Status.ORDERED.equals(status);
+        if (Optional.ofNullable(status).isEmpty()) {
+            return false;
+        }
+        return Arrays.asList(Status.ORDERED, Status.PAYED).contains(status);
     }
 
     public enum Status {
         ORDERED,        // 주문 완료
         PAYED,          // 결제 완료
-        PREPARING,      // 준비중
         DELIVERING,     // 배달중
         DELIVERED,      // 배달 완료
         CANCELED        // 취소됨

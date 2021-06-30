@@ -51,6 +51,26 @@ public class CancelOrderTest {
         // ... success
     }
 
+    @Test
+    public void cancelOrderStatusFailureTest() {
+        // given
+        long ordererId = 2;
+        long orderId = 1;
+        Order order = createOrder(ordererId);
+        setField(order, "id", orderId);
+        setField(order, "status", Order.Status.DELIVERING);
+
+        when(orderRepository.findById(eq(orderId))).thenReturn(Optional.of(order));
+
+        // when
+        Exception exception = assertThrows(BusinessException.class, () -> {
+            orderCommandService.cancelOrder(ordererId, orderId);
+        });
+
+        // then
+        assertEquals(getField(exception, "errorCode"), ErrorCode.ORDER_CANNOT_BE_CANCELED);
+    }
+
     private Order createOrder(long ordererId) {
         final long storeId = 5;
         final String address = "seoul";
