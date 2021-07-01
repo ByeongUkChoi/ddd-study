@@ -58,7 +58,6 @@ public class CancelOrderTest {
         long orderId = 1;
         Order order = createOrder(ordererId);
         setField(order, "id", orderId);
-        setField(order, "status", Order.Status.DELIVERING);
 
         when(orderRepository.findById(eq(orderId))).thenReturn(Optional.of(order));
 
@@ -69,6 +68,21 @@ public class CancelOrderTest {
 
         // then
         assertEquals(getField(exception, "errorCode"), ErrorCode.ORDER_CANNOT_BE_CANCELED);
+    }
+
+    @Test
+    public void payOrderNotFoundOrderFailureTest() {
+        // given
+        long ordererId = 2;
+        long orderId = 1;
+
+        // when
+        Exception exception = assertThrows(BusinessException.class, () -> {
+            orderCommandService.cancelOrder(ordererId, orderId);
+        });
+
+        // then
+        assertEquals(getField(exception, "errorCode"), ErrorCode.NOT_FOUND_ORDER);
     }
 
     private Order createOrder(long ordererId) {
