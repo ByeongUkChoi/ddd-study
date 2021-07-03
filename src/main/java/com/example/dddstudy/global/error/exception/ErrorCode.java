@@ -19,9 +19,11 @@ public enum ErrorCode {
     INVALID_ORDERER(2008, "주문자가 일치하지 않습니다."),
     ORDER_CANNOT_BE_CANCELED(2009, "주문 취소가 불가능 합니다."),
 
-    INVALID_ORDER_STATUS_TO_PAY(2010, "주문 결제시 상태 오류 입니다."),
+    INVALID_ORDER_STATUS_TO_PAY(2010, "주문 결제 시 상태 오류 입니다."),
+    INVALID_ORDER_STATUS_TO_START_DELIVERY(2011, "배달 시작 시 상태 오류 입니다."),
+    INVALID_ORDER_STATUS_TO_DELIVERED(2012, "배달 완료 시 상태 오류 입니다."),
 
-    STORE_IS_NOT_OPEN(2011, "가게는 주문 불가능한 상태입니다."),
+    STORE_IS_NOT_OPEN(2013, "가게는 주문 불가능한 상태입니다."),
     ;
 
     private final int code;

@@ -43,6 +43,26 @@ public class Order extends AbstractAggregateRoot {
         registerEvent(new OrderPayedEvent(this));
     }
 
+    // 배달시작
+    public void startDelivery() {
+        if (!Status.PAYED.equals(this.status)) {
+            throw new BusinessException(ErrorCode.INVALID_ORDER_STATUS_TO_START_DELIVERY);
+        }
+        this.status = Status.DELIVERING;
+        // TODO: domain event
+//        registerEvent(new OrderPayedEvent(this));
+    }
+
+    // 배달 완료j
+    public void delivered() {
+        if (!Status.ORDERED.equals(this.status)) {
+            throw new BusinessException(ErrorCode.INVALID_ORDER_STATUS_TO_DELIVERED);
+        }
+        this.status = Status.DELIVERED;
+        // TODO: domain event
+//        registerEvent(new OrderPayedEvent(this));
+    }
+
     // 주문 취소
     public void cancel(long ordererId) {
         if (!enableOrderCancel()) {
