@@ -14,6 +14,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler
     public ResponseEntity<ErrorResponse> handleException(Exception e) {
         log.error("handleException", e);
-        return new ResponseEntity<>(new ErrorResponse(ErrorCode.UNKNOWN_ERROR), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(new ErrorResponse(ErrorCode.UNKNOWN_ERROR), HttpStatus.BAD_REQUEST);
     }
 }
