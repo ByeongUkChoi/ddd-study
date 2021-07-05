@@ -49,18 +49,16 @@ public class Order extends AbstractAggregateRoot {
             throw new BusinessException(ErrorCode.INVALID_ORDER_STATUS_TO_START_DELIVERY);
         }
         this.status = Status.DELIVERING;
-        // TODO: domain event
-//        registerEvent(new OrderPayedEvent(this));
+        registerEvent(new OrderStartedDeliveryEvent(this));
     }
 
-    // 배달 완료j
+    // 배달 완료
     public void delivered() {
         if (!Status.ORDERED.equals(this.status)) {
             throw new BusinessException(ErrorCode.INVALID_ORDER_STATUS_TO_DELIVERED);
         }
         this.status = Status.DELIVERED;
-        // TODO: domain event
-//        registerEvent(new OrderPayedEvent(this));
+        registerEvent(new OrderDeliveredEvent(this));
     }
 
     // 주문 취소
