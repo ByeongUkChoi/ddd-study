@@ -31,4 +31,16 @@ public class OrderCommandService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ORDER));
         order.cancel(ordererId);
     }
+
+    public void startDeliveryOrder(long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ORDER));
+        order.startDelivery();
+    }
+
+    public void deliveredOrder(long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new BusinessException(ErrorCode.NOT_FOUND_ORDER));
+        order.delivered();
+    }
 }
