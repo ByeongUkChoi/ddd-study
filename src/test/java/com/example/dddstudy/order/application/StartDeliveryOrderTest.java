@@ -50,6 +50,24 @@ public class StartDeliveryOrderTest {
         // ... success
     }
 
+    @Test
+    public void startDeliveryOrderStatusFailureTest() {
+        // given
+        long orderId = 1;
+        Order order = createOrder();
+        setField(order, "id", orderId);
+
+        when(orderRepository.findById(eq(orderId))).thenReturn(Optional.of(order));
+
+        // when
+        Exception exception = assertThrows(BusinessException.class, () -> {
+            orderCommandService.startDeliveryOrder(orderId);
+        });
+
+        // then
+        assertEquals(getField(exception, "errorCode"), ErrorCode.INVALID_ORDER_STATUS_TO_START_DELIVERY);
+    }
+
     private Order createOrder() {
         final long ordererId = 1;
         final long storeId = 5;
