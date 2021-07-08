@@ -68,6 +68,20 @@ public class StartDeliveryOrderTest {
         assertEquals(getField(exception, "errorCode"), ErrorCode.INVALID_ORDER_STATUS_TO_START_DELIVERY);
     }
 
+    @Test
+    public void startDeliveryOrderNotFoundOrderFailureTest() {
+        // given
+        long orderId = 1;
+
+        // when
+        Exception exception = assertThrows(BusinessException.class, () -> {
+            orderCommandService.payOrder(orderId);
+        });
+
+        // then
+        assertEquals(getField(exception, "errorCode"), ErrorCode.NOT_FOUND_ORDER);
+    }
+
     private Order createOrder() {
         final long ordererId = 1;
         final long storeId = 5;
