@@ -54,7 +54,7 @@ public class Order extends AbstractAggregateRoot {
 
     // 배달 완료
     public void delivered() {
-        if (!Status.ORDERED.equals(this.status)) {
+        if (!Status.DELIVERING.equals(this.status)) {
             throw new BusinessException(ErrorCode.INVALID_ORDER_STATUS_TO_DELIVERED);
         }
         this.status = Status.DELIVERED;
