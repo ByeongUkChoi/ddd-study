@@ -1,6 +1,6 @@
 package com.example.dddstudy.store.application;
 
-import com.example.dddstudy.order.domain.OrderPlacedEvent;
+import com.example.dddstudy.order.domain.event.OrderPlacedEvent;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionalEventListener;
 
