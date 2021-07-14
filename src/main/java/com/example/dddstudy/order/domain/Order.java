@@ -3,21 +3,46 @@ package com.example.dddstudy.order.domain;
 import com.example.dddstudy.global.error.exception.BusinessException;
 import com.example.dddstudy.global.error.exception.ErrorCode;
 import com.example.dddstudy.order.application.OrderValidator;
+import com.example.dddstudy.order.domain.event.OrderCanceledEvent;
+import com.example.dddstudy.order.domain.event.OrderDeliveredEvent;
+import com.example.dddstudy.order.domain.event.OrderPayedEvent;
+import com.example.dddstudy.order.domain.event.OrderPlacedEvent;
+import com.example.dddstudy.order.domain.event.OrderStartedDeliveryEvent;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.AbstractAggregateRoot;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Entity(name = "orders")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Order extends AbstractAggregateRoot {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private long ordererId;
+
     @Getter
     private long storeId;
+
+    @OneToMany(cascade = CascadeType.ALL)
     @Getter
     private List<OrderItem> orderItems;
+
+    @Embedded
     private DeliveryInfo deliveryInfo;
+
     private Status status;
 
     public Order(long ordererId, long storeId, DeliveryInfo deliveryInfo, OrderItem... orderItems) {
