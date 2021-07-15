@@ -12,7 +12,7 @@ import javax.persistence.OneToMany;
 import java.util.Arrays;
 import java.util.List;
 
-@Entity
+@Entity(name = "order_items")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
     @Id
