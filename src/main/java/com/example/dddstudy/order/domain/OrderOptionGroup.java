@@ -12,9 +12,9 @@ import javax.persistence.OneToMany;
 import java.util.Arrays;
 import java.util.List;
 
-@Entity
-@Getter
+@Entity(name = "order_option_groups")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Getter
 public class OrderOptionGroup {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

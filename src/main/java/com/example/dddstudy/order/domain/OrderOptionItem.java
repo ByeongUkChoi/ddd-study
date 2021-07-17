@@ -9,7 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity
+@Entity(name = "order_option_items")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 public class OrderOptionItem {

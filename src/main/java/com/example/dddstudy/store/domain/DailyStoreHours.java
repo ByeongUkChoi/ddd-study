@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
 
-@Entity
+@Entity(name = "daily_store_hours")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DailyStoreHours {
     @Id
